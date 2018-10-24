@@ -94,24 +94,6 @@ function preg_match_all(regex, haystack) {
 	return matchArray;
 }
 
-function extractScript(text) {
-	var part = text.replace(/\*/gi, "-XX-XX-").split("<\/script>");
-	var matchArray = [];
-	for (var n in part) {
-		var c = part[n].match(new RegExp(/<script([^>]+)?>([^*]+)/));
-		if (c) {
-			for (var j = 0; j < 3; j++) {
-				if (c[j])
-					c[j] = c[j].replace(/\-XX\-XX-/gi, "*");
-			}
-			c[0] += "</script>";
-			matchArray.push(c);
-		}
-	}
-
-	return matchArray;
-}
-
 
 addeventAjax("data-share", function(e, obj) {
 	$("a[data-share]", obj.html).each(function() {
