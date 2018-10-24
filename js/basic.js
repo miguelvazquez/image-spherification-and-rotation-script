@@ -105,7 +105,6 @@ function extractScript(text) {
 					c[j] = c[j].replace(/\-XX\-XX-/gi, "*");
 			}
 			c[0] += "</script>";
-			c[0] += "</script>";
 			matchArray.push(c);
 		}
 	}
