@@ -1,0 +1,127 @@
+<!DOCTYPE doctype html>
+<html lang="es">
+
+<head>
+	<style type="text/css" media="screen">
+		body {
+			background-color: #000000; 
+			color: #444444; 
+			background-image: url(img/bg.jpg);
+			background-position: center;
+		}
+	</style>
+</head>
+
+<body>
+
+	<h1>MUNDO RODANDO</h1>
+
+	<div id="mundianime">
+		<div>
+			<div id="container-mundi">
+			</div>
+		</div>
+	</div>
+
+	<script>
+		var cfx = cfx || {};
+
+		if (typeof(cfx._inload) == "undefined") cfx._inload = [];
+
+		cfx.addinload = function(e) {
+			if (typeof(e) == "function") cfx._inload.push(e);
+		};
+		(function(w) {
+			var scene = { "fn": [], "func": [], "_urlkey": "inicio\/", "_urlSvgBase": "https:\/\/www.bonaval.com\/images\/logo-white.png", "urlBaseRoot": "https:\/\/www.bonaval.com\/", "urlBase": "https:\/\/www.bonaval.com\/", "urlAdminBase": "", "iconclose": "130", "link": "https:\/\/www.bonaval.com\/" }
+			w.scene = scene;
+		})(window);
+		(function(a, p, i) {
+			a['cPageScript'] = i;
+			a[i] = a[i] || function() {
+				(a[i].q = a[i].q || []).push(arguments)
+			}
+		})(window, document, 'cPage');
+	</script>
+	<script>
+		cfx.addinload(function() {
+			setTimeout(function() {
+				$.getScript("js/three.js", function() {
+					$.getScript("js/Projector.js", function() {
+						$.getScript("js/CanvasRenderer.js", function() {
+							(function() {
+								var container;
+								var stats;
+								var camera;
+								var scene;
+								var renderer;
+								var group;
+								var windowHalfX = 250;
+								var windowHalfY = 250;
+								var containerD;
+								var winD;
+
+								function init() {
+									containerD = $(document.getElementById('mundianime'));
+									winD = $(window);
+									container = document.getElementById('container-mundi');
+									//creamos nuestra cámara
+									camera = new THREE.PerspectiveCamera(60, 250 / 250, 1, 2000);
+									camera.position.z = 200;
+									//definimos nuestra Escena
+									scene = new THREE.Scene();
+									group = new THREE.Group();
+									scene.add(group);
+									//Creamos la tierra
+									var loader = new THREE.TextureLoader();
+									loader.load('img/mundo-color-transparent.png', function(texture) {
+										var geometry = new THREE.SphereGeometry(100, 20, 20);
+										var material = new THREE.MeshBasicMaterial({ map: texture, overdraw: 0.5 });
+										var mesh = new THREE.Mesh(geometry, material);
+										mesh.rotation.y = -Math.PI / 2;
+										group.add(mesh);
+									});
+									//Renderizamos
+									renderer = new THREE.CanvasRenderer({ alpha: true });
+									renderer.setClearColor(0x000000, 0)
+									/*renderer.setClearColor(0xff0000,0);*/
+									renderer.setPixelRatio(window.devicePixelRatio);
+									renderer.setSize(300, 250); // Dimensions of result graphic
+									container.appendChild(renderer.domElement);
+								}
+
+								function onWindowResize() {}
+
+								function animate() {
+									var top = containerD.offset().top;
+									var wTop = winD.scrollTop() + winD.height();
+									var sTop = wTop - top;
+									var wTop2 = winD.scrollTop() - containerD.height();
+									var sTop2 = wTop2 - top;
+									if (sTop > 0 && sTop2 < 0) { render(); } requestAnimationFrame(animate);
+								}
+
+								function render() {
+									camera.position.x += camera.position.x * 0.05;
+									camera.position.y += camera.position.y * 0.05;
+									camera.lookAt(scene.position);
+									group.rotation.y -= 0.005;
+									renderer.render(scene, camera);
+								}
+								init();
+								animate();
+							})()
+						});
+					});
+				});
+			}, 3000);
+		});
+	</script>
+	<script src="js/jquery-2.2.2.min.js"></script>
+	<script src="js/jquery-ui.min.js"></script>
+	<script src="js/basic.js"></script>
+	<script src="js/cfx.tools.js"></script>
+	<script src="js/cfx.scene.js"></script>
+	<script src="js/onload.js"></script>
+</body>
+
+</html>

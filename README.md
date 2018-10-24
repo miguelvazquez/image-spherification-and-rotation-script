@@ -1,0 +1,1 @@
+# Ejemplo de un Script JS que muestra una imagen tornada a esfera y girando como un globo terráqueo
